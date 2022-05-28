@@ -22,4 +22,14 @@ public interface CommodityService extends IService<Commodity> {
 
     Map<String, Object> findCommodityById(Integer id);
 
+    List<CommodityType> getParent();
+
+    List<Commodity> findCommodityByParentId(Long id);
+
+    List<Commodity> findByHot(Long id);
+
+    List<Commodity> findByNew(Long id);
+
+    void addNumberByName(String name, String number);
+
 }

@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -14,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication()
 @ComponentScan(basePackages = "com.lhr")
-@EnableDiscoveryClient
+@EnableFeignClients(basePackages = {"com.lhr"})
 @MapperScan("com.lhr.milk.user.mapper")
 public class UserApplication {
     public static void main(String[] args) {

@@ -3,9 +3,11 @@ package com.lhr.milk.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lhr.milk.client.PaymentFeignClient;
 import com.lhr.milk.common.exception.MilkException;
 import com.lhr.milk.common.helper.JwtHelper;
 import com.lhr.milk.common.result.ResultCodeEnum;
+import com.lhr.milk.model.model.order.PaymentInfo;
 import com.lhr.milk.model.model.user.UserInfo;
 import com.lhr.milk.model.vo.LoginVo;
 import com.lhr.milk.user.mapper.UserInfoMapper;
@@ -15,8 +17,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author lhr
@@ -31,7 +33,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper,
     private RedisTemplate<String,String> redisTemplate;
 
     @Autowired
-    private UserInfoMapper userInfoMapper;
+    private PaymentFeignClient paymentFeignClient;
 
     /**
      * 用户登录接口
@@ -111,4 +113,38 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper,
         wrapper.eq("openid",openid);
         return baseMapper.selectOne(wrapper);
     }
+
+    @Override
+    public void userPaySuccess(long userId, Integer price) {
+        UserInfo userInfo = baseMapper.selectById(userId);
+        userInfo.setConsumptionAmount(userInfo.getConsumptionAmount()+price);
+        Date date = new Date();
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
+        userInfo.setLastConsumption(date);
+        baseMapper.updateById(userInfo);
+    }
+    /**
+     * 获取用户的消费信息 评论信息  订单信息
+     * @param userId
+     * @return Map
+     */
+    @Override
+    public Map<String, Object> getUserInfo(Long userId) {
+
+        if (userId==null){
+            throw new MilkException(ResultCodeEnum.PARAM_ERROR);
+        }
+
+        HashMap<String, Object> map = new HashMap<>();
+        UserInfo userInfo = baseMapper.selectById(userId);
+        map.put("userInfo",userInfo);
+
+        List<PaymentInfo> infoList = paymentFeignClient.getAllByUserId(userId);
+        map.put("infoList",infoList);
+
+        //拿取地址信息
+        map.put("address",paymentFeignClient.getUserAllAddress(userId));
+        return map;
+    }
+
 }

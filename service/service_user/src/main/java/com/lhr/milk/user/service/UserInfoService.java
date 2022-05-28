@@ -18,5 +18,8 @@ public interface UserInfoService extends IService<UserInfo> {
 
     UserInfo findByOpenId(String openid);
 
+    void userPaySuccess(long userId, Integer price);
+
+    Map<String, Object> getUserInfo(Long userId);
 
 }

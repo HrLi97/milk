@@ -14,6 +14,8 @@
     <modules>
         <module>service_user</module>
         <module>service_commodity</module>
+        <module>service_admin</module>
+        <module>service_oss</module>
     </modules>
 
     <properties>
@@ -34,6 +36,15 @@
         <dependency>
             <groupId>com.lhr</groupId>
             <artifactId>model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lhr</groupId>
+            <artifactId>client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

@@ -111,6 +111,7 @@ public class WeixinApiController {
             userInfo.setNickName(nickname);
             userInfo.setOpenid(openid);
             userInfo.setStatus(1);
+//            userInfo.setName(nickname);
             userInfo.setHeadImgUrl(headimgurl);
             userInfo.setOnLine(0);
             userInfoService.save(userInfo);
@@ -124,8 +125,9 @@ public class WeixinApiController {
         if(StringUtils.isEmpty(name)) {
             name = userInfo.getEmail();
         }
+        userInfo.setName(name);
         map.put("name", name);
-
+        userInfo.setName(name);
         //判断userInfo是否有邮箱，如果邮箱为空，返回openid
         //如果手机号不为空，返回openid值是空字符串
         //前端判断：如果openid不为空，绑定手机号，如果openid为空，不需要绑定手机号
@@ -141,5 +143,7 @@ public class WeixinApiController {
         return "redirect:" + ConstantPropertiesUtil.MILK_BASE_URL + "/weixin/callback?token="+map.get("token")+ "&openid="+map.get("openid")+
                 "&name="+ URLEncoder.encode(map.get("name"),"utf-8");
     }
+
+
 
 }

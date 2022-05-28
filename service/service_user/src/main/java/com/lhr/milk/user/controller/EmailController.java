@@ -1,6 +1,7 @@
 package com.lhr.milk.user.controller;
 
 import com.lhr.milk.common.result.Result;
+import com.lhr.milk.model.model.user.UserInfo;
 import com.lhr.milk.model.vo.LoginVo;
 import com.lhr.milk.user.service.EmailService;
 import com.lhr.milk.user.service.UserInfoService;
@@ -65,5 +66,26 @@ public class EmailController {
     public Result login(@RequestBody LoginVo loginVo){
         Map<String,Object> info = userInfoService.login(loginVo);
         return Result.ok(info);
+    }
+
+    /**
+     * 通过userId获取用户数据
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getUserById/{userId}")
+    public UserInfo getUserById(@PathVariable long userId){
+        UserInfo user = userInfoService.getById(userId);
+        return user;
+    }
+    /**
+     * 刷新用户表的消费金额
+     * @param userId
+     * @param price
+     */
+    @GetMapping("/userPaySuccess/{userId}/{price}")
+    public void userPaySuccess(@PathVariable long userId,
+                               @PathVariable Integer price){
+        userInfoService.userPaySuccess(userId,price);
     }
 }

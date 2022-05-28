@@ -14,8 +14,12 @@ import java.util.Date;
 @ApiModel(description="查询具体商品")
 public class OrderQueryVo {
 
+    private long userId;
     private Date creatTime;
+    private Integer commodityId;
     private String commodityName;
-    private boolean isPay;
+    private String isPay;
+    private String pay;
+    private String noPay;
 
 }

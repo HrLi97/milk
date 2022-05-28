@@ -12,6 +12,7 @@ import com.lhr.milk.common.utils.AuthContextHolder;
 import com.lhr.milk.model.model.commodity.Commodity;
 import com.lhr.milk.model.model.commodity.CommodityType;
 import com.lhr.milk.model.model.commodity.JoinCart;
+import com.lhr.milk.model.model.order.PaymentInfo;
 import com.lhr.milk.model.vo.CommodityQueryVo;
 import com.lhr.milk.model.vo.JoinVo;
 import com.lhr.milk.model.vo.UserJoinListVo;
@@ -124,6 +125,7 @@ public class CommodityController {
 
         return Result.ok();
     }
+
     /**
      * 根据id和flag来改变某一个商品的数量 刷新购物车列表
      * @return
@@ -135,10 +137,59 @@ public class CommodityController {
         return Result.ok();
     }
 
+    /**
+     * 用户点击确定后把购物车的内容存放到sql
+     * @param jsonArray
+     * @param request
+     * @return
+     */
     @PostMapping("/GenerateTable")
     public Result GenerateTable(@RequestBody JSONArray jsonArray,HttpServletRequest request){
         Long userId = AuthContextHolder.getUserId(request);
         advancePaymentService.insert(jsonArray,userId);
         return Result.ok();
     }
+
+    /**
+     * 远程嗲用接口
+     * @param name
+     * @return
+     */
+    @GetMapping("/getTypeByName/{name}")
+    public List<Integer> getTypeByName(@PathVariable("name") String name){
+        List<CommodityType> commodityTypeList = commodityTypeService.getIdByName(name);
+        ArrayList<Integer> integers = new ArrayList<>();
+        for (int i = 0; i < commodityTypeList.size(); i++) {
+            Long id = commodityTypeList.get(i).getId();
+            integers.add(Math.toIntExact(id));
+        }
+        return integers;
+    }
+
+    /**
+     * 远程调用接口
+     * @param id
+     * @return
+     */
+    @GetMapping("/getTypeNameById/{id}")
+    public String getTypeNameById(@PathVariable long id){
+        return commodityTypeService.getById(id).getName();
+    }
+
+    /**
+     * 找出所有种类信息远程调用
+     * @return
+     */
+    @GetMapping("/findAllType")
+    public List<CommodityType> findAllType(){
+        List<CommodityType> commodityTypeList = commodityTypeService.findCommodityType();
+        for (int i = 0; i < commodityTypeList.size(); i++) {
+            if (commodityTypeList.get(i).getId()>=100){
+                commodityTypeList.remove(i);
+                i--;
+            }
+        }
+        return commodityTypeList;
+    }
+
 }

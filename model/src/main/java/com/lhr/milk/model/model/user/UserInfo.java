@@ -48,7 +48,7 @@ public class UserInfo extends BaseEntity {
 
     @ApiModelProperty(value = "最后消费时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(value = "last_consumption")
+    @TableField(value = "last_consumption",fill = FieldFill.UPDATE)
     private Date lastConsumption;
 
     @ApiModelProperty(value = "总消费金额")

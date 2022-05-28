@@ -1,9 +1,11 @@
-package com.lhr.milk.commodity.service.imp;
+package com.lhr.milk.commodity.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lhr.milk.commodity.mapper.JoinCartMapper;
 import com.lhr.milk.commodity.service.JoinCartService;
+import com.lhr.milk.common.exception.MilkException;
+import com.lhr.milk.common.result.ResultCodeEnum;
 import com.lhr.milk.model.model.commodity.JoinCart;
 import com.lhr.milk.model.vo.JoinVo;
 import org.springframework.beans.BeanUtils;
@@ -69,7 +71,7 @@ public class JoinCartServiceImpl extends ServiceImpl<JoinCartMapper, JoinCart> i
             }else if ("无".equals(temps)){
                 map.put("types",types);
             }else {
-                map.put("types",temps+","+types);
+                map.put("types",temps+" "+types);
             }
             map.put("totalPrice",totalPrice);
             joinCart.setParam(map);
@@ -90,6 +92,9 @@ public class JoinCartServiceImpl extends ServiceImpl<JoinCartMapper, JoinCart> i
         Integer price = joinCart.getPrice()/joinCart.getNumber();
 
         //如果num大于1才可以进行以下操作 如果num=1操作完之后就删除
+        if(joinCart.getNumber()<0){
+            throw new MilkException(ResultCodeEnum.CANCEL_ORDER_NO);
+        }
         if (joinCart.getNumber()!=1){
             if (flag==0){
                 joinCart.setNumber(joinCart.getNumber()-1);

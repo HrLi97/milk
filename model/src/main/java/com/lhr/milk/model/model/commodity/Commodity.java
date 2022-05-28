@@ -41,7 +41,7 @@ public class Commodity extends BaseEntity {
 
     @ApiModelProperty(value = "销量")
     @TableField("amount")
-    private long amount;
+    private Integer amount;
 
     @ApiModelProperty(value = "商品名称")
     @TableField("is_hot")

@@ -31,13 +31,16 @@ public class AdvancePayment extends BaseEntity {
     @TableField("userId")
     private long userId;
 
-    @TableField(typeHandler = FastjsonTypeHandler.class)
+    @TableField(typeHandler = FastjsonTypeHandler.class,value = "join_cart_id")
     private List<Integer> joinCartId;
 
-    @TableField(typeHandler = FastjsonTypeHandler.class)
+    @TableField(typeHandler = FastjsonTypeHandler.class,value = "detail")
     private List<HashMap<String,Object>> detail;
 
     @TableField("payId")
     private long payId;
+
+    @TableField("out_trade_no")
+    private String outTradeNo;
 
 }

@@ -3,4 +3,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lhr.milk.commodity.mapper.AdvancePaymentMapper">
 
+    <select id="selectAll" resultType="com.lhr.milk.model.vo.AdvancePaymentVo">
+
+        SELECT * FROM advance_payment WHERE is_deleted=0 and userId=#{userId}
+        <if test="commodityName!=null and commodityName!=''">
+            and detail LIKE '%' #{commodityName} '%'
+        </if>
+        <if test="pay!=null and pay!=''">
+            and payId!=#{pay}
+        </if>
+        <if test="noPay!=null and noPay!=''">
+            and payId=#{noPay}
+        </if>
+
+    </select>
+    <select id="selectByorderId" resultType="com.lhr.milk.model.vo.AdvancePaymentVo">
+        SELECT * FROM advance_payment WHERE id=#{orderId}
+    </select>
+    <select id="selectByTradeNo" resultType="com.lhr.milk.model.vo.AdvancePaymentVo">
+        SELECT * FROM advance_payment WHERE out_trade_no=#{outTradeNo}
+    </select>
 </mapper>

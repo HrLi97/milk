@@ -1,0 +1,93 @@
+package com.lhr.milk.model.model.order;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lhr.milk.model.model.base.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+/**
+ * <p>
+ * PaymentInfo
+ * </p>
+ *
+ * @author qy
+ */
+@Data
+@ApiModel(description = "PaymentInfo")
+@TableName("payment")
+public class PaymentInfo extends BaseEntity {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@ApiModelProperty(value = "对外业务编号")
+	@TableField("out_trade_no")
+	private String outTradeNo;
+
+	@ApiModelProperty(value = "订单编号")
+	@TableField("order_id")
+	private Long orderId;
+
+	@ApiModelProperty(value = "支付类型（微信 支付宝）")
+	@TableField("payment_type")
+	private Integer paymentType;
+
+	@ApiModelProperty(value = "交易编号")
+	@TableField("trade_no")
+	private String tradeNo;
+
+	@ApiModelProperty(value = "支付金额")
+	@TableField("price")
+	private Integer price;
+
+	@ApiModelProperty(value = "交易内容")
+	@TableField("subject")
+	private String subject;
+
+	@ApiModelProperty(value = "支付状态")
+	@TableField("payment_status")
+	private Integer paymentStatus;
+
+	@ApiModelProperty(value = "回调时间")
+	@TableField("callback_time")
+	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+	private Date callbackTime;
+
+	@ApiModelProperty(value = "回调信息")
+	@TableField("callback_content")
+	private String callbackContent;
+
+	@ApiModelProperty(value = "创建时间")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@TableField(value = "update_time",fill = FieldFill.UPDATE)
+	private Date updateTime;
+
+	@ApiModelProperty(value = "订单绑定用户id")
+	@TableField("user_id")
+	private Long userId;
+
+	@ApiModelProperty(value = "评价表的id")
+	@TableField("evaluate_id")
+	private Long evaluateId;
+
+	@ApiModelProperty(value = "用户订单地址")
+	@TableField("address_id")
+	private long addressId;
+
+	@ApiModelProperty(value = "用户订单地址")
+	@TableField("get_time")
+	private String getTime;
+
+	@ApiModelProperty(value = "其他参数")
+	@TableField(exist = false)
+	private List<Map> list = new ArrayList<>();
+
+
+}
+

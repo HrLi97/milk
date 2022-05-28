@@ -1,6 +1,7 @@
 package com.lhr.milk.commodity.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lhr.milk.model.model.commodity.Commodity;
 import com.lhr.milk.model.model.commodity.CommodityType;
 import com.lhr.milk.model.vo.JoinVo;
 
@@ -16,5 +17,9 @@ public interface CommodityTypeService extends IService<CommodityType> {
 
 
     String findCommodityTypeById(Integer parentId);
+
+    List<CommodityType> findAll();
+
+    List<CommodityType> getIdByName(String name);
 
 }
